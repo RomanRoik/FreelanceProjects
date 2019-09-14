@@ -1,0 +1,5 @@
+Task: I need code that will go to Google with the text that is in Japanese, fetch the text back for a word, 
+store it in a list and then go to Google again to get the English for the next Japanese word. 
+Repeating this until all words have been translated. Note it must be one by one translated at a time.
+
+After contact with employer, i made a proposal to use Microsoft translating api, and in my project used DarrenLee.dll
