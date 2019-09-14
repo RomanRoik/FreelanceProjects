@@ -1,0 +1,5 @@
+Task: Hi there, I am looking for a C# module that will take as input an English sentence and identify if it is gramatically correct.
+
+The output can be like a JSON structure that contains the original sentence, flag if grammatically correct/ incorrect and possibly a list of incorrect grammatical areas.
+
+I need a console application and the C# code.
