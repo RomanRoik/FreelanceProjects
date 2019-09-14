@@ -1,0 +1,67 @@
+using System;
+using System.Collections.Generic;
+using DarrenLee.Translator;
+using System.IO;
+using Newtonsoft.Json;
+namespace TranslatingFreelance
+{
+    class Program
+    {
+        public class WordFreq
+        {
+            public int Order { get; set; }
+            public double Frequency { get; set; }
+            public string Word { get; set; }
+            public string Meaning { get; set; }
+        }
+        public static List<WordFreq> scrapedWikiWords;
+        
+        public static void WriteToJsonFile<T>(string filePath, T objectToWrite, bool append = false) where T : new()
+    {
+        TextWriter writer = null;
+        try
+        {
+            var contentsToWriteToFile = JsonConvert.SerializeObject(objectToWrite);
+            writer = new StreamWriter(filePath, append);
+            writer.Write(contentsToWriteToFile);
+        }
+        finally
+        {
+            if (writer != null)
+                writer.Close();
+        }
+    }
+    public static T ReadFromJsonFile<T>(string filePath) where T : new()
+        {
+            TextReader reader = null;
+            try
+            {
+                reader = new StreamReader(filePath);
+                var fileContents = reader.ReadToEnd();
+                return JsonConvert.DeserializeObject<T>(fileContents);
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+        static void Main(string[] args)
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8; //encoding, i have to change font to display japanese
+            string fileFolder = @"path\file.data"; // path to file
+             scrapedWikiWords = ReadFromJsonFile<List<WordFreq>>(fileFolder);
+            for (int i = 0; i < scrapedWikiWords.Capacity; i++) 
+            {
+                scrapedWikiWords[i].Meaning = Translator.Translate(scrapedWikiWords[i].Word, "ja", "en"); // Adding meaning
+                //Translator is class from DarrenLee.Translator DLL, fun Translate, gets word to translate, start and end language
+                Console.Write(scrapedWikiWords[i].Word + " -> " + scrapedWikiWords[i].Meaning+"\n");
+            }
+            
+          
+
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
+    }
+}
